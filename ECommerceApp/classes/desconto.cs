@@ -1,26 +1,51 @@
-﻿using System;
-
-namespace ECommerceApp.classes
+﻿namespace ECommerceApp.classes
 {
     public class Desconto
     {
-        public string Codigo { get; set; }
-        public decimal ValorDesconto { get; set; }
-        public DateTime Validade { get; set; }
+        #region Attributes
 
-        public Desconto(string codigo, decimal valorDesconto, DateTime validade)
+        private string codigo;
+        private decimal valor;
+
+        #endregion
+
+        #region Methods
+
+        #region Constructors
+
+        public Desconto(string codigo, decimal valor)
         {
             Codigo = codigo;
-            ValorDesconto = valorDesconto;
-            Validade = validade;
+            Valor = valor;
         }
 
-        public decimal AplicarDesconto(decimal valorTotal)
+        #endregion
+
+        #region Properties
+
+        public string Codigo
         {
-            if (DateTime.Now <= Validade)
-                return valorTotal - ValorDesconto;
-            else
-                return valorTotal;
+            get { return codigo; }
+            set { codigo = value; }
         }
+
+        public decimal Valor
+        {
+            get { return valor; }
+            set { valor = value; }
+        }
+
+        #endregion
+
+        #region Functions
+
+        public override string ToString()
+        {
+            return $"Código: {Codigo}, Desconto: {Valor:C}";
+        }
+
+        #endregion
+
+        #endregion
     }
 }

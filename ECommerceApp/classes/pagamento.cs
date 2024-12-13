@@ -1,22 +1,51 @@
-﻿using System;
-
-namespace ECommerceApp.classes
+﻿namespace ECommerceApp.classes
 {
     public class Pagamento
     {
-        public int Id { get; set; }
-        public Pedido Pedido { get; set; }
-        public string MetodoPagamento { get; set; } // Pode ser "Cartão", "PayPal", etc.
-        public decimal Valor { get; set; }
-        public DateTime DataPagamento { get; set; }
+        #region Attributes
 
-        public Pagamento(int id, Pedido pedido, string metodoPagamento, decimal valor)
+        private decimal valor;
+        private string metodoPagamento;
+
+        #endregion
+
+        #region Methods
+
+        #region Constructors
+
+        public Pagamento(decimal valor, string metodoPagamento)
         {
-            Id = id;
-            Pedido = pedido;
-            MetodoPagamento = metodoPagamento;
             Valor = valor;
-            DataPagamento = DateTime.Now;
+            MetodoPagamento = metodoPagamento;
         }
+
+        #endregion
+
+        #region Properties
+
+        public decimal Valor
+        {
+            get { return valor; }
+            set { valor = value; }
+        }
+
+        public string MetodoPagamento
+        {
+            get { return metodoPagamento; }
+            set { metodoPagamento = value; }
+        }
+
+        #endregion
+
+        #region Functions
+
+        public override string ToString()
+        {
+            return $"Método de Pagamento: {MetodoPagamento}, Valor: {Valor:C}";
+        }
+
+        #endregion
+
+        #endregion
     }
 }

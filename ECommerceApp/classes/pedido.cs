@@ -1,55 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ECommerceApp.classes;
 
 namespace ECommerceApp.classes
 {
     public class Pedido
     {
-        public int Id { get; set; }
-        public Cliente Cliente { get; set; }
-        public List<Produto> Produtos { get; set; }
-        public StatusPedido Status { get; set; }
-        public DateTime DataPedido { get; set; }
-        public decimal ValorTotal => Produtos.Sum(p => p.Preco);
+        #region Attributes
+
+        private int id;
+        private Cliente cliente;
+        private List<ItemPedido> itensPedido;
+        private StatusPedidos.StatusPedido status;
+        private DateTime dataPedido;
+
+        #endregion
+
+        #region Constructors
 
         public Pedido(int id, Cliente cliente)
         {
             Id = id;
             Cliente = cliente;
-            Produtos = new List<Produto>();
+            ItensPedido = new List<ItemPedido>();
             DataPedido = DateTime.Now;
-            Status = StatusPedido.AguardaPagamento;
+            Status = StatusPedidos.StatusPedido.AguardaPagamento;
         }
 
-        // Adiciona um produto ao pedido
-        public void AdicionarProduto(Produto produto)
+        #endregion
+
+        #region Properties
+
+        public int Id
         {
-            Produtos.Add(produto);
+            get { return id; }
+            set { id = value; }
         }
 
-        // Remove um produto do pedido pelo ID
-        public void RemoverProduto(int produtoId)
+        public Cliente Cliente
         {
-            var produto = Produtos.Find(p => p.Id == produtoId);
-            if (produto != null)
+            get { return cliente; }
+            set { cliente = value; }
+        }
+
+        public List<ItemPedido> ItensPedido
+        {
+            get { return itensPedido; }
+            set { itensPedido = value; }
+        }
+
+        public StatusPedidos.StatusPedido Status
+        {
+            get { return status; }
+            set { status = value; }
+        }
+
+        public DateTime DataPedido
+        {
+            get { return dataPedido; }
+            set { dataPedido = value; }
+        }
+
+        public decimal ValorTotal
+        {
+            get { return ItensPedido.Sum(item => item.Produto.Preco * item.Quantidade); }
+        }
+
+        #endregion
+
+        #region Functions
+
+        public void AdicionarItem(Produto produto, int quantidade)
+        {
+            var itemExistente = ItensPedido.FirstOrDefault(item => item.Produto.Id == produto.Id);
+            if (itemExistente != null)
             {
-                Produtos.Remove(produto);
+                itemExistente.Quantidade += quantidade; // Atualiza a quantidade do produto
             }
             else
             {
-                Console.WriteLine("Produto não encontrado no pedido.");
+                ItensPedido.Add(new ItemPedido(produto, quantidade));
             }
         }
 
-        // Atualiza um produto no pedido (substitui o produto)
-        public void AtualizarProduto(int produtoId, Produto novoProduto)
+        public void RemoverItem(int produtoId)
         {
-            var produto = Produtos.Find(p => p.Id == produtoId);
-            if (produto != null)
+            var item = ItensPedido.FirstOrDefault(i => i.Produto.Id == produtoId);
+            if (item != null)
             {
-                var index = Produtos.IndexOf(produto);
-                Produtos[index] = novoProduto;
+                ItensPedido.Remove(item);
             }
             else
             {
@@ -60,6 +100,20 @@ namespace ECommerceApp.classes
         public override string ToString()
         {
             return $"Pedido ID: {Id}, Cliente: {Cliente.Nome}, Status: {Status}, Total: {ValorTotal:C}, Data: {DataPedido}";
+        }
+
+        #endregion
+    }
+
+    public class ItemPedido
+    {
+        public Produto Produto { get; set; }
+        public int Quantidade { get; set; }
+
+        public ItemPedido(Produto produto, int quantidade)
+        {
+            Produto = produto;
+            Quantidade = quantidade;
         }
     }
 }

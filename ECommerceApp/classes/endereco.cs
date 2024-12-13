@@ -1,25 +1,67 @@
-﻿using System;
-
-namespace ECommerceApp.classes
+﻿namespace ECommerceApp.classes
 {
     public class Endereco
     {
-        public string Rua { get; set; }
-        public string Cidade { get; set; }
-        public string CodigoPostal { get; set; }
-        public string Pais { get; set; }
+        #region Attributes
 
-        public Endereco(string rua, string cidade, string codigoPostal, string pais)
+        private string rua;
+        private string cidade;
+        private string distrito;
+        private string cp;
+
+        #endregion
+
+        #region Methods
+
+        #region Constructors
+
+        public Endereco(string rua, string cidade, string distrito, string cp)
         {
             Rua = rua;
             Cidade = cidade;
-            CodigoPostal = codigoPostal;
-            Pais = pais;
+            Distrito = distrito;
+            Cpostal = cp;
         }
+
+        #endregion
+
+        #region Properties
+
+        public string Rua
+        {
+            get { return rua; }
+            set { rua = value; }
+        }
+
+        public string Cidade
+        {
+            get { return cidade; }
+            set { cidade = value; }
+        }
+
+        public string Distrito
+        {
+            get { return distrito; }
+            set { distrito = value; }
+        }
+
+        public string Cpostal
+        {
+            get { return cp; }
+            set { cp = value; }
+        }
+
+        #endregion
+
+        #region Functions
 
         public override string ToString()
         {
-            return $"{Rua}, {Cidade}, {CodigoPostal}, {Pais}";
+            return $"{Rua}, {Cidade}, {Distrito} - {Cpostal}";
         }
+
+        #endregion
+
+        #endregion
     }
 }

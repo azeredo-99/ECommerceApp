@@ -1,11 +1,17 @@
-﻿using System;
-
-namespace ECommerceApp.classes
+﻿namespace ECommerceApp.classes
 {
     public class Stock
     {
-        public Produto Produto { get; set; }
-        public int QuantidadeDisponivel { get; set; }
+        #region Attributes
+
+        private Produto produto;
+        private int quantidadeDisponivel;
+
+        #endregion
+
+        #region Methods
+
+        #region Constructors
 
         public Stock(Produto produto, int quantidadeDisponivel)
         {
@@ -13,9 +19,62 @@ namespace ECommerceApp.classes
             QuantidadeDisponivel = quantidadeDisponivel;
         }
 
+        #endregion
+
+        #region Properties
+
+        public Produto Produto
+        {
+            get { return produto; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value), "O produto não pode ser nulo.");
+                }
+                produto = value;
+            }
+        }
+
+        public int QuantidadeDisponivel
+        {
+            get { return quantidadeDisponivel; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("A quantidade disponível não pode ser negativa.", nameof(value));
+                }
+                quantidadeDisponivel = value;
+            }
+        }
+
+        #endregion
+
+        #region Functions
+
+        
         public void AtualizarStock(int quantidadeVendida)
         {
+            if (quantidadeVendida <= 0)
+            {
+                throw new ArgumentException("A quantidade vendida deve ser maior que zero.", nameof(quantidadeVendida));
+            }
+
+            if (quantidadeVendida > QuantidadeDisponivel)
+            {
+                throw new InvalidOperationException("Quantidade vendida não pode ser maior do que a quantidade disponível no estoque.");
+            }
+
             QuantidadeDisponivel -= quantidadeVendida;
         }
+
+        #endregion
+
+        #region Destructor
+
+        #endregion
+
+        #endregion
     }
 }
