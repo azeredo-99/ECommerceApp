@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ECommerceApp.classes;
 using ECommerceApp.Interfaces;
 
@@ -8,66 +7,50 @@ namespace ECommerceApp.Data
 {
     public class CarrinhoDeComprasRepository : ICarrinhoDeComprasRepository
     {
-        private List<Produto> produtosCarrinho = new List<Produto>();
+        private static List<CarrinhoDeCompras> carrinhos = new List<CarrinhoDeCompras>();
 
-        // Adicionar produto ao carrinho
-        public void AdicionarProduto(Produto produto)
+        // Adicionar um novo carrinho
+        public void AdicionarCarrinho(CarrinhoDeCompras carrinho)
         {
-            if (produto == null)
+            if (carrinho == null)
             {
-                throw new ArgumentNullException(nameof(produto), "O produto não pode ser nulo.");
+                throw new ArgumentNullException(nameof(carrinho), "O carrinho não pode ser nulo.");
             }
 
-            produtosCarrinho.Add(produto);
-            Console.WriteLine($"Produto '{produto.Nome}' adicionado ao carrinho.");
+            carrinhos.Add(carrinho);
+            Console.WriteLine("Carrinho adicionado com sucesso.");
         }
 
-        // Remover produto do carrinho pelo ID
-        public void RemoverProduto(int produtoId)
+        // Obter carrinho por índice ou posição (pode ser ajustado para outra chave de identificação)
+        public CarrinhoDeCompras ObterCarrinho(int index)
         {
-            var produto = produtosCarrinho.FirstOrDefault(p => p.Id == produtoId);
-            if (produto == null)
+            if (index < 0 || index >= carrinhos.Count)
             {
-                throw new ArgumentException($"Produto com ID {produtoId} não encontrado no carrinho.");
+                throw new ArgumentOutOfRangeException(nameof(index), "Índice do carrinho inválido.");
             }
 
-            produtosCarrinho.Remove(produto);
-            Console.WriteLine($"Produto '{produto.Nome}' removido do carrinho.");
+            return carrinhos[index];
         }
 
-        // Exibir todos os produtos do carrinho
-        public void ExibirCarrinho()
+        // Remover um carrinho pelo índice
+        public void RemoverCarrinho(int index)
         {
-            if (!produtosCarrinho.Any())
-            {
-                Console.WriteLine("O carrinho está vazio.");
-                return;
-            }
-
-            Console.WriteLine("Produtos no carrinho:");
-            foreach (var produto in produtosCarrinho)
-            {
-                Console.WriteLine($"ID: {produto.Id}, Nome: {produto.Nome}, Preço: {produto.Preco:C}");
-            }
+            var carrinho = ObterCarrinho(index);
+            carrinhos.Remove(carrinho);
+            Console.WriteLine("Carrinho removido com sucesso.");
         }
 
-        // Calcular o total do carrinho
-        public decimal CalcularTotal()
+        // Limpar todos os carrinhos (útil para testes ou reset)
+        public void LimparTodosCarrinhos()
         {
-            return produtosCarrinho.Sum(p => p.Preco);
+            carrinhos.Clear();
+            Console.WriteLine("Todos os carrinhos foram removidos.");
         }
 
-        // Limpar todos os produtos do carrinho
-        public void LimparCarrinho()
+        // Obter todos os carrinhos (para monitoramento ou controle)
+        public List<CarrinhoDeCompras> ObterTodosCarrinhos()
         {
-            produtosCarrinho.Clear();
-            Console.WriteLine("O carrinho foi limpo.");
-        }
-
-        // Obter a lista de produtos no carrinho
-        public List<Produto> ObterProdutos()
-        {
-            return new List<Produto>(produtosCarrinho);
+            return new List<CarrinhoDeCompras>(carrinhos);
         }
     }
 }

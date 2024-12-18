@@ -8,5 +8,7 @@ namespace ECommerceApp.Interfaces
         void AdicionarAvaliacao(Avaliacao avaliacao);
         List<Avaliacao> ObterAvaliacoesPorCliente(string emailCliente);
         List<Avaliacao> ObterAvaliacoesPorProduto(int produtoId);
+        List<Avaliacao> ObterTodasAvaliacoes();
+
     }
 }

@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="ECommerceApp.Utility">
+      <HintPath>..\..\..\..\..\..\..\source\repos\ECommerceApp.Utility\ECommerceApp.Utility\bin\Debug\ECommerceApp.Utility.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

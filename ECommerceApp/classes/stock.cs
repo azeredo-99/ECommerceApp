@@ -1,4 +1,6 @@
-﻿namespace ECommerceApp.classes
+﻿using System;
+
+namespace ECommerceApp.classes
 {
     public class Stock
     {
@@ -8,8 +10,6 @@
         private int quantidadeDisponivel;
 
         #endregion
-
-        #region Methods
 
         #region Constructors
 
@@ -53,7 +53,6 @@
 
         #region Functions
 
-        
         public void AtualizarStock(int quantidadeVendida)
         {
             if (quantidadeVendida <= 0)
@@ -63,17 +62,11 @@
 
             if (quantidadeVendida > QuantidadeDisponivel)
             {
-                throw new InvalidOperationException("Quantidade vendida não pode ser maior do que a quantidade disponível no estoque.");
+                throw new InvalidOperationException("Quantidade vendida não pode ser maior do que a quantidade disponível no stock.");
             }
 
             QuantidadeDisponivel -= quantidadeVendida;
         }
-
-        #endregion
-
-        #region Destructor
-
-        #endregion
 
         #endregion
     }

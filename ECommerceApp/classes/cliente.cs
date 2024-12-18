@@ -7,7 +7,7 @@ namespace ECommerceApp.classes
     {
         #region Attributes
 
-        private List<Pedido> pedidos; 
+        private List<Pedido> pedidos;
 
         #endregion
 
@@ -16,21 +16,19 @@ namespace ECommerceApp.classes
         public Cliente(string email, string nome, string password, int numeroTelemovel)
             : base(email, nome, password, numeroTelemovel)
         {
-            pedidos = new List<Pedido>(); 
+            pedidos = new List<Pedido>();
         }
 
         #endregion
 
         #region Properties
 
-      
-        public IReadOnlyList<Pedido> Pedidos => pedidos;
+        public IReadOnlyList<Pedido> Pedidos => pedidos.AsReadOnly();
 
         #endregion
 
-        #region Functions
+        #region Methods
 
-        
         public void AdicionarPedido(Pedido pedido)
         {
             if (pedido == null)
@@ -38,7 +36,12 @@ namespace ECommerceApp.classes
                 throw new ArgumentNullException(nameof(pedido), "O pedido não pode ser nulo.");
             }
 
-            pedidos.Add(pedido); 
+            pedidos.Add(pedido);
+        }
+
+        public List<Pedido> ObterPedidos()
+        {
+            return new List<Pedido>(pedidos); // Retorna uma cópia para proteger a lista interna
         }
 
         #endregion
